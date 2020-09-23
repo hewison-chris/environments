@@ -1,0 +1,35 @@
+# Runs an Agora node
+
+[Unit]
+Description=Agora node %I
+AssertPathExists=/srv/agora/%i
+Requires=network-online.target local-fs.target
+After=network-online.target local-fs.target
+
+[Service]
+Type=simple
+WorkingDirectory=/srv/agora/%i/
+ExecStart=/usr/local/bin/docker run -v /srv/agora/%i/:/agora/ -it bpfkorea/agora
+# Reload is not implemented
+#ExecReload=/bin/kill -HUP $MAINPID
+
+# SIGKILL only manually
+TimeoutStopSec=infinity
+SendSIGKILL=no
+Restart=on-failure
+# TODO: FIXME
+User=root
+Group=root
+
+# Could be even 1000 (to disable oom killing),
+# but set to -950 for the OOM killer to be able to kill an instance
+# if the server is about to die.
+OOMScoreAdjust=-950
+
+# Note infinity is used instead of unlimited
+LimitNOFILE=100000:100000
+LimitMEMLOCK=infinity:infinity
+LimitCORE=infinity:infinity
+
+[Install]
+WantedBy = multi-user.target
