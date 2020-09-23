@@ -7,9 +7,7 @@ set -o pipefail
 # TODO: Support copying missing files and overwriting old ones
 
 # Process root first
-for file in $BASE_DIR/users/root/*; do
-    cp -Rv ${file} /root/
-done
+cp -Rv ${file} /root/.
 
 # Then all dev team members
 for userpath in $BASE_DIR/users/*; do
@@ -20,7 +18,7 @@ for userpath in $BASE_DIR/users/*; do
     fi
     
     adduser --shell `which zsh` --disabled-password --ingroup sudo $user
-    cp -Rv $userpath/* /home/$user/
+    cp -Rv $userpath/. /home/$user/
     chmod 700 /home/$user/.ssh/
 
     # Make sure to keep this the last action
