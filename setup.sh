@@ -24,9 +24,13 @@ apt-get -y --allow-unauthenticated install --reinstall d-apt-keyring
 apt-get update && sudo apt-get install -y dmd-compiler dmd-tools ldc dub
 
 # Clone this repository to access required files
-git clone https://github.com/bpfkorea/environments.git $BASE_DIR/
+if [ -d ${BASE_DIR} ]; then
+    git -C ${BASE_DIR} pull --ff-only
+else
+    git clone https://github.com/bpfkorea/environments.git ${BASE_DIR}/
+fi
 
-$BASE_DIR/users/setup.sh
+${BASE_DIR}/users/setup.sh
 
 #########################################
 # General configuration for all servers #
