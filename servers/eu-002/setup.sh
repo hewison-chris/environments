@@ -10,4 +10,6 @@ SELF_PATH=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 cp -Rv ${SELF_PATH}/srv /
 cp -Rv ${SELF_PATH}/usr /
 
+mkdir -p /srv/stoa/
+
 systemctl daemon-reload

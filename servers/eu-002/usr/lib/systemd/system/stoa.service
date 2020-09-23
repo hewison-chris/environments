@@ -1,0 +1,21 @@
+# Runs a stoa node
+
+[Unit]
+Description=Stoa: API server for Agora node
+AssertPathExists=/srv/stoa/
+Requires=network-online.target local-fs.target
+After=network-online.target local-fs.target
+
+[Service]
+Type=simple
+WorkingDirectory=/srv/stoa/
+ExecStart=/usr/bin/docker run -v /srv/stoa/:/stoa/ -t bpfk/stoa
+# Reload is not implemented
+#ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+# TODO: FIXME
+User=root
+Group=root
+
+[Install]
+WantedBy = multi-user.target
