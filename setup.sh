@@ -15,7 +15,7 @@ HOSTS=(eu-001 eu-002 na-001 na-002)
 DOMAIN=bosagora.io
 
 # Install all required packages
-apt-get install -y build-essential docker ecryptfs-utils emacs-nox gdb git lldb mosh zsh
+apt-get install -y build-essential ecryptfs-utils emacs-nox gdb git lldb mosh zsh
 
 # Setup for D packages
 if [ ! -r ]; then
@@ -25,9 +25,18 @@ if [ ! -r ]; then
 fi
 # Setup for Eternal Terminal
 add-apt-repository -y ppa:jgmath2000/et
+# Setup for Docker (Ubuntu's 'docker' package is for docking windows)
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+add-apt-repository -y \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
 
 # Install extra packages
-apt-get update && apt-get install -y dmd-compiler dmd-tools ldc dub et
+apt-get update && apt-get install -y dmd-compiler dmd-tools ldc dub \
+                          docker-ce docker-ce-cli containerd.io \
+                          et
+
 
 # Clone this repository to access required files
 if [ -d ${BASE_DIR} ]; then
