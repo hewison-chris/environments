@@ -10,6 +10,7 @@ SELF_PATH=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 
 # Process root first
 cp -Rv ${SELF_PATH}/root/. /root/
+chsh root -s `which zsh`
 
 # Then all dev team members
 for userpath in ${SELF_PATH}/*; do
