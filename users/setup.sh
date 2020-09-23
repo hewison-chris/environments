@@ -11,7 +11,7 @@ cp -Rv $BASE_DIR/users/root/. /root/
 
 # Then all dev team members
 for userpath in $BASE_DIR/users/*; do
-    user=$(basename userpath)
+    user=$(basename $userpath)
     if [ $user -eq "root" ]; then continue; fi
     if [ -d /home/$user/ ]; then
         echo "User '$user' home already exists, skipping"
