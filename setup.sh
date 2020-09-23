@@ -15,13 +15,13 @@ HOSTS=(eu-001 eu-002 na-001 na-002)
 DOMAIN=bosagora.io
 
 # Install all required packages
-apt-get install build-essential docker ecryptfs-utils emacs-nox gdb git lldb mosh zsh
+apt-get install -y build-essential docker ecryptfs-utils emacs-nox gdb git lldb mosh zsh
 
 # Install D packages
 wget https://netcologne.dl.sourceforge.net/project/d-apt/files/d-apt.list -O /etc/apt/sources.list.d/d-apt.list
 apt-get update --allow-insecure-repositories
 apt-get -y --allow-unauthenticated install --reinstall d-apt-keyring
-apt-get update && sudo apt-get install dmd-compiler dmd-tools ldc dub
+apt-get update && sudo apt-get install -y dmd-compiler dmd-tools ldc dub
 
 # Clone this repository to access required files
 git clone https://github.com/bpfkorea/environments.git $BASE_DIR/
