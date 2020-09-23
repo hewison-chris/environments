@@ -9,7 +9,7 @@ After=network-online.target local-fs.target
 [Service]
 Type=simple
 WorkingDirectory=/srv/agora/%i/
-ExecStart=/usr/local/bin/docker run -v /srv/agora/%i/:/agora/ -it bpfkorea/agora
+ExecStart=/usr/bin/docker run -v /srv/agora/%i/:/agora/ -it bpfk/agora
 # Reload is not implemented
 #ExecReload=/bin/kill -HUP $MAINPID
 
