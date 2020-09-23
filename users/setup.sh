@@ -7,7 +7,7 @@ set -o pipefail
 # TODO: Support copying missing files and overwriting old ones
 
 # Process root first
-cp -Rv ${file} /root/.
+cp -Rv $BASE_DIR/users/root/. /root/
 
 # Then all dev team members
 for userpath in $BASE_DIR/users/*; do
