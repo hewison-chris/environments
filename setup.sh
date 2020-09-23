@@ -24,7 +24,7 @@ if [ ! -r ]; then
     apt-get -y --allow-unauthenticated install --reinstall d-apt-keyring
 fi
 # Setup for Eternal Terminal
-add-apt-repository ppa:jgmath2000/et
+add-apt-repository -y ppa:jgmath2000/et
 
 # Install extra packages
 apt-get update && apt-get install -y dmd-compiler dmd-tools ldc dub et
