@@ -17,11 +17,17 @@ DOMAIN=bosagora.io
 # Install all required packages
 apt-get install -y build-essential docker ecryptfs-utils emacs-nox gdb git lldb mosh zsh
 
-# Install D packages
-wget https://netcologne.dl.sourceforge.net/project/d-apt/files/d-apt.list -O /etc/apt/sources.list.d/d-apt.list
-apt-get update --allow-insecure-repositories
-apt-get -y --allow-unauthenticated install --reinstall d-apt-keyring
-apt-get update && sudo apt-get install -y dmd-compiler dmd-tools ldc dub
+# Setup for D packages
+if [ ! -r ]; then
+    wget https://netcologne.dl.sourceforge.net/project/d-apt/files/d-apt.list -O /etc/apt/sources.list.d/d-apt.list
+    apt-get update --allow-insecure-repositories
+    apt-get -y --allow-unauthenticated install --reinstall d-apt-keyring
+fi
+# Setup for Eternal Terminal
+add-apt-repository ppa:jgmath2000/et
+
+# Install extra packages
+apt-get update && apt-get install -y dmd-compiler dmd-tools ldc dub et
 
 # Clone this repository to access required files
 if [ -d ${BASE_DIR} ]; then
