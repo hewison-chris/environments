@@ -18,7 +18,7 @@ DOMAIN=bosagora.io
 apt-get install -y build-essential ecryptfs-utils emacs-nox gdb git lldb mosh zsh
 
 # Setup for D packages
-if [ ! -r ]; then
+if [ ! -r /etc/apt/sources.list.d/d-apt.list ]; then
     wget https://netcologne.dl.sourceforge.net/project/d-apt/files/d-apt.list -O /etc/apt/sources.list.d/d-apt.list
     apt-get update --allow-insecure-repositories
     apt-get -y --allow-unauthenticated install --reinstall d-apt-keyring
