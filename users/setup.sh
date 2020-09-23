@@ -17,7 +17,7 @@ for userpath in $BASE_DIR/users/*; do
         echo "User '$user' home already exists, skipping"
     fi
     
-    adduser --shell `which zsh` --disabled-password --ingroup sudo $user
+    adduser --shell `which zsh` --disabled-password --gecos "" --ingroup sudo $user
     cp -Rv $userpath/. /home/$user/
     chmod 700 /home/$user/.ssh/
 
