@@ -37,9 +37,9 @@ ${BASE_DIR}/users/setup.sh
 #########################################
 
 # Allow passwordless sudo for users
-sed -i -e 's/^[[:space:]]*\%sudo[[:space:]+ALL=(ALL).*$/%sudo ALL=(ALL) NOPASSWD:ALL/g' /etc/sudoers
+sed -i -E -e 's/^[[:space:]]*\%sudo[[:space:]]+ALL=.*$/%sudo ALL=(ALL) NOPASSWD:ALL/g' /etc/sudoers
 
 # Disallow root ssh
-sed -i -e 's/^[[:space:]]*PermitRootLogin[[:space:]]?.*/PermitRootLogin no/g' /etc/sshd/sshd_confi
+sed -i -E -e 's/^[[:space:]]*PermitRootLogin[[:space:]]+.*$/PermitRootLogin no/g' /etc/ssh/sshd_config
 
 # TODO: Configure hosts, and per-server setup
