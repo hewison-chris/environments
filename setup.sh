@@ -26,23 +26,7 @@ apt-get update && sudo apt-get install dmd-compiler dmd-tools ldc dub
 # Clone this repository to access required files
 git clone https://github.com/bpfkorea/environments.git $BASE_DIR/
 
-# Setup root user first
-for file in $BASE_DIR/users/root/*; do
-    cp -Rv ${file} /root/
-done
-
-# Then all dev team members
-for userpath in $BASE_DIR/users/*; do
-    user=$(basename userpath)
-    if [ $user -eq "root" ]; then continue; fi
-    
-    adduser --shell `which zsh` --disabled-password --ingroup sudo $user
-    cp -Rv $userpath/* /home/$user/
-    chmod 700 /home/$user/.ssh/
-
-    # Make sure to keep this the last action
-    chown -R $user:sudo /home/$user/
-done
+$BASE_DIR/users/setup.sh
 
 #########################################
 # General configuration for all servers #
