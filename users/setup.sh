@@ -25,6 +25,8 @@ for userpath in ${SELF_PATH}/*; do
 
     echo "Adding user '$user' ($userpath)..."
     adduser --shell `which zsh` --disabled-password --gecos "" --ingroup sudo ${user}
+    # Give grml zsh by default, but users can override it
+    cp /root/.zshrc /home/${user}/.zshrc
     cp -Rv ${userpath}/. /home/${user}/
     chmod 700 /home/${user}/.ssh/
 

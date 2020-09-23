@@ -1,0 +1,63 @@
+# -*- sh -*-
+
+# Make sure "git show HEAD^" works
+setopt NO_NOMATCH
+
+# Clean temporary files created by emacs (those with that pesky tilde)
+# Without arg, cleans the local directory, and all its subdirectories
+# Otherwise, look in the directories provided as args recursively
+function clean ()
+{
+    # On Linux the following works, but not on MacOSX:
+    # find $@ -name "*~" | xargs --no-run-if-empty rm -v
+
+    if [ $# -eq 0 ]; then
+        find ./ -name "*~" | xargs rm -v
+    else
+        find $@/ -name "*~" | xargs rm -v
+    fi
+}
+
+# Clean up non running containers as well as dangling (untagged) images
+func dockerclean ()
+{
+    docker container ls -a | tail -n +2 | cut -d' ' -f1 | xargs docker container rm
+    docker rmi -f $(docker images -f "dangling=true" -q)
+}
+
+# `dub clean` is not doing its job properly
+func dubclean ()
+{
+    dub clean
+    if [ $? -ne 0 ]; then
+        echo "dub clean failed, not proceeding further" 2>&1
+        return 1
+    fi
+
+    find $(pwd) -name '.dub' -type d | xargs rm -rv
+}
+
+# Old alias from the Epitech time
+alias ne='emacs -nw'
+
+# Starts/build a containerized alpine dev image
+alias alpine_run='docker run --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --security-opt apparmor=unconfined --mount type=bind,source=$HOME,target=/root/ --network host --rm -it alpine'
+# Starts/build a containerized archlinux development image (useful for MacOS)
+alias arch='docker run --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --security-opt apparmor=unconfined --mount type=bind,source=$HOME,target=/home/geod24/ --user geod24 --network host --rm -it archlinux'
+alias archbuild='docker build ${HOME}/projects/geod24/config/devel/ -t archlinux --build-arg USERNAME=geod24 --build-arg USERID=$(id -u)'
+
+# Env setup
+export EDITOR='emacs'
+export PAGER='less'
+
+# Some shells have weird defaults
+# E.g. using ssh/mosh into a server can sometimes lead to some trouble
+# This is very verbose but Works For Me (tm)
+export LC_ALL=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+
+if [[ -s "$HOME/.dvm/scripts/dvm" ]] ; then
+    . "$HOME/.dvm/scripts/dvm"
+fi
