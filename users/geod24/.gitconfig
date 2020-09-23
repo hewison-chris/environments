@@ -1,0 +1,14 @@
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	pff = "!f() { REMOTE=$(git remote|grep -E '^upstream$'); git pull --ff-only ${REMOTE:-origin} $(git rev-parse --symbolic-full-name HEAD); }; f"
+    rb  = "!f() { git rebase -i HEAD~$1; }; f"
+    ru  = "remote update -p"
+[color]
+	ui = true
+[core]
+	pager = less
+	autocrlf = input
+	eol = lf
+	commentchar = !
+[push]
+	default = current
