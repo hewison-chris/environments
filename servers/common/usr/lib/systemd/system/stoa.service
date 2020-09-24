@@ -9,7 +9,7 @@ After=network-online.target local-fs.target
 [Service]
 Type=simple
 WorkingDirectory=/srv/stoa/
-ExecStart=/usr/bin/docker run -v /srv/stoa/:/stoa/ -t bpfk/stoa
+ExecStart=/usr/bin/docker run -v /srv/stoa/:/stoa/ -e PORT=2828 -t bpfk/stoa
 # Reload is not implemented
 #ExecReload=/bin/kill -HUP $MAINPID
 Restart=on-failure
