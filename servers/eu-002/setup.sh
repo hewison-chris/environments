@@ -15,8 +15,8 @@ mkdir -p /srv/stoa/
 systemctl daemon-reload
 systemctl enable agora@2.service
 systemctl enable agora@3.service
-# systemctl enable stoa.service
+systemctl enable stoa.service
 
 systemctl start agora@2.service
 systemctl start agora@3.service
-#systemctl start stoa.service
+systemctl start stoa.service
