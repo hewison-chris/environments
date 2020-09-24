@@ -17,9 +17,8 @@ ExecStart=/usr/bin/docker run -v /srv/agora/%i/:/agora/ -p %i826:%i826 -t bpfk/a
 TimeoutStopSec=infinity
 SendSIGKILL=no
 Restart=on-failure
-# TODO: FIXME
-User=root
-Group=root
+User=agora
+Group=nogroup
 
 # Could be even 1000 (to disable oom killing),
 # but set to -950 for the OOM killer to be able to kill an instance

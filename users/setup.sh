@@ -12,6 +12,16 @@ SELF_PATH=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 cp -Rv ${SELF_PATH}/root/. /root/
 chsh root -s `which zsh`
 
+# Now add applications account
+if ! cat /etc/shadow | grep -qE '^agora:'; then
+    adduser --system --home /srv/agora/ --disabled-password --disabled-login --gecos "" agora
+fi
+chown -R agora:nogroup /srv/agora/
+if ! cat /etc/shadow | grep -qE '^stoa:'; then
+    adduser --system --home /srv/stoa/ --disabled-password --disabled-login --gecos "" stoa
+fi
+chown -R stoa:nogroup /srv/stoa/
+
 # Then all dev team members
 for userpath in ${SELF_PATH}/*; do
     # Skip non-directory, such as this file
