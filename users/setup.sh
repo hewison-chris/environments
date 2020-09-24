@@ -15,10 +15,12 @@ chsh root -s `which zsh`
 # Now add applications account
 if ! cat /etc/shadow | grep -qE '^agora:'; then
     adduser --system --home /srv/agora/ --disabled-password --disabled-login --gecos "" agora
+    addgroup agora docker
 fi
 chown -R agora:nogroup /srv/agora/
 if ! cat /etc/shadow | grep -qE '^stoa:'; then
     adduser --system --home /srv/stoa/ --disabled-password --disabled-login --gecos "" stoa
+    addgroup agora docker
 fi
 chown -R stoa:nogroup /srv/stoa/
 
@@ -35,7 +37,7 @@ for userpath in ${SELF_PATH}/*; do
     fi
 
     echo "Adding user '$user' ($userpath)..."
-    adduser --shell `which zsh` --disabled-password --gecos "" --ingroup sudo ${user}
+    adduser --shell `which zsh` --disabled-password --gecos "" --ingroup sudo --ingroup docker ${user}
     # Give grml zsh by default, but users can override it
     cp /root/.zshrc /home/${user}/.zshrc
     cp -Rv ${userpath}/. /home/${user}/
