@@ -23,6 +23,10 @@ if ! cat /etc/shadow | grep -qE '^stoa:'; then
     addgroup agora docker
 fi
 chown -R stoa:nogroup /srv/stoa/
+if ! cat /etc/shadow | grep -qE '^prometheus:'; then
+    adduser --system --home /srv/prometheus/ --disabled-password --disabled-login --group --gecos "" prometheus
+fi
+chown -R prometheus:prometheus /srv/prometheus/
 
 # Then all dev team members
 for userpath in ${SELF_PATH}/*; do

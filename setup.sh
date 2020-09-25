@@ -63,7 +63,7 @@ if ! which prometheus-node-exporter 2>&1; then
     NODE_EXPORTER_VERSION=1.0.1
     NODE_EXPORTER_FILE=node_exporter-${NODE_EXPORTER_VERSION}.linux-amd64
     if [ ! -r /root/${NODE_EXPORTER_FILE}.tar.gz ]; then
-        wget -O ${NODE_EXPORTER_FILE}.tar.gz https://github.com/prometheus/node_exporter/releases/download/v${NODE_EXPORTER_VERSION}/${NODE_EXPORTER_FILE}.tar.gz
+        wget -O /root/${NODE_EXPORTER_FILE}.tar.gz https://github.com/prometheus/node_exporter/releases/download/v${NODE_EXPORTER_VERSION}/${NODE_EXPORTER_FILE}.tar.gz
     fi
     if [ ! -d /root/${NODE_EXPORTER_FILE} ]; then
         cd /root
@@ -72,8 +72,9 @@ if ! which prometheus-node-exporter 2>&1; then
     cp /root/${NODE_EXPORTER_FILE}/node_exporter /usr/bin/prometheus-node-exporter
     cp ${BASE_DIR}/servers/all/${SYSTEMD_DIR}/prometheus-node-exporter.service ${SYSTEMD_DIR}/prometheus-node-exporter.service
     cp ${BASE_DIR}/servers/all/etc/default/prometheus-node-exporter /etc/default/prometheus-node-exporter
-    systemctl daemon-reloead
+    systemctl daemon-reload
     systemctl enable prometheus-node-exporter.service
+    systemctl start prometheus-node-exporter.service
 fi
 
 # TODO: Configure hosts, and per-server setup
