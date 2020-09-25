@@ -57,4 +57,21 @@ sed -i -E -e 's/^[[:space:]]*\%sudo[[:space:]]+ALL=.*$/%sudo ALL=(ALL) NOPASSWD:
 # Disallow root ssh
 sed -i -E -e 's/^[[:space:]]*PermitRootLogin[[:space:]]+.*$/PermitRootLogin no/g' /etc/ssh/sshd_config
 
+# Install prometheus monitoring tool
+if ! /usr/bin/which -s prometheus-node-exporter; then
+    NODE_EXPORTER_VERSION=1.0.1
+    NODE_EXPORTER_FILE=node_exporter-${NODE_EXPORTER_VERSION}.linux-amd64.tar.gz
+    if [ ! -r /root/${NODE_EXPORTER_FILE}.tar.gz ]; then
+        wget -O ${NODE_EXPORTER_TAR}.tar.gz https://github.com/prometheus/node_exporter/releases/download/v${NODE_EXPORTER_VERSION}/${NODE_EXPORTER_TAR}.tar.gz
+    fi
+    if [ ! -d /root/${NODE_EXPORTER_FILE} ]; then
+        cd /root
+        tar -xf /root/${NODE_EXPORTER_FILE}.tar.gz
+    fi
+    cp /root/${NODE_EXPORTER_FILE}/prometheus /usr/bin/
+    cp /root/${NODE_EXPORTER_FILE}/promtool   /usr/bin/
+    cp ${BASE_DIR}/servers/all/usr/lib/systemd/prometheus-node-exporter.service /usr/lib/systemd/prometheus-node-exporter.service
+    cp ${BASE_DIR}/servers/all/etc/default/prometheus-node-exporter /etc/default/prometheus-node-exporter
+fi
+
 # TODO: Configure hosts, and per-server setup
