@@ -11,6 +11,7 @@ set -o pipefail
 
 # Useful globals
 BASE_DIR=/root/environments
+SYSTEMD_DIR=/usr/lib/systemd/system/
 HOSTS=(eu-001 eu-002 na-001 na-002)
 DOMAIN=bosagora.io
 
@@ -58,20 +59,20 @@ sed -i -E -e 's/^[[:space:]]*\%sudo[[:space:]]+ALL=.*$/%sudo ALL=(ALL) NOPASSWD:
 sed -i -E -e 's/^[[:space:]]*PermitRootLogin[[:space:]]+.*$/PermitRootLogin no/g' /etc/ssh/sshd_config
 
 # Install prometheus monitoring tool
-if ! /usr/bin/which -s prometheus-node-exporter; then
+if ! which prometheus-node-exporter 2>&1; then
     NODE_EXPORTER_VERSION=1.0.1
-    NODE_EXPORTER_FILE=node_exporter-${NODE_EXPORTER_VERSION}.linux-amd64.tar.gz
+    NODE_EXPORTER_FILE=node_exporter-${NODE_EXPORTER_VERSION}.linux-amd64
     if [ ! -r /root/${NODE_EXPORTER_FILE}.tar.gz ]; then
-        wget -O ${NODE_EXPORTER_TAR}.tar.gz https://github.com/prometheus/node_exporter/releases/download/v${NODE_EXPORTER_VERSION}/${NODE_EXPORTER_TAR}.tar.gz
+        wget -O ${NODE_EXPORTER_FILE}.tar.gz https://github.com/prometheus/node_exporter/releases/download/v${NODE_EXPORTER_VERSION}/${NODE_EXPORTER_FILE}.tar.gz
     fi
     if [ ! -d /root/${NODE_EXPORTER_FILE} ]; then
         cd /root
         tar -xf /root/${NODE_EXPORTER_FILE}.tar.gz
     fi
-    cp /root/${NODE_EXPORTER_FILE}/prometheus /usr/bin/
-    cp /root/${NODE_EXPORTER_FILE}/promtool   /usr/bin/
-    cp ${BASE_DIR}/servers/all/usr/lib/systemd/prometheus-node-exporter.service /usr/lib/systemd/prometheus-node-exporter.service
+    cp /root/${NODE_EXPORTER_FILE}/node_exporter /usr/bin/
+    cp ${BASE_DIR}/servers/all/${SYSTEMD_DIR}/prometheus-node-exporter.service ${SYSTEMD_DIR}/prometheus-node-exporter.service
     cp ${BASE_DIR}/servers/all/etc/default/prometheus-node-exporter /etc/default/prometheus-node-exporter
+    systemctl enable prometheus-node-exporter.service
 fi
 
 # TODO: Configure hosts, and per-server setup
