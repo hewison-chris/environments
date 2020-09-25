@@ -69,9 +69,10 @@ if ! which prometheus-node-exporter 2>&1; then
         cd /root
         tar -xf /root/${NODE_EXPORTER_FILE}.tar.gz
     fi
-    cp /root/${NODE_EXPORTER_FILE}/node_exporter /usr/bin/
+    cp /root/${NODE_EXPORTER_FILE}/node_exporter /usr/bin/prometheus-node-exporter
     cp ${BASE_DIR}/servers/all/${SYSTEMD_DIR}/prometheus-node-exporter.service ${SYSTEMD_DIR}/prometheus-node-exporter.service
     cp ${BASE_DIR}/servers/all/etc/default/prometheus-node-exporter /etc/default/prometheus-node-exporter
+    systemctl daemon-reloead
     systemctl enable prometheus-node-exporter.service
 fi
 
