@@ -31,6 +31,8 @@ validator:
   # Private seed:    SCPIBFI3DQELPR7ZVRFFUITWZNBETBBXLZJYKTE7RKBCUIIL3DHXAGDN
   # Public address:  GDNODE3EWQKF33TPK35DAQ3KXAYSOT4E4ACDOVJMDZQDVKP66IMJEACM
   seed: SCPIBFI3DQELPR7ZVRFFUITWZNBETBBXLZJYKTE7RKBCUIIL3DHXAGDN
+  # Address of the name registry
+  registry_address: disabled
 
 ################################################################################
 ##                         Ban manager configuration                          ##

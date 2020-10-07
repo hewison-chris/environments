@@ -31,6 +31,8 @@ validator:
   # Private seed:    SBVADJX3I7B4FVTMTYYSJABZR4B5HMJV5LSL2DY2C5DOVIHXFLLHJXMI
   # Public address:  GDNODE6ZXW2NNOOQIGN24MBEZRO5226LSMHGQA3MUAMYQSTJVR7XT6GH
   seed: SBVADJX3I7B4FVTMTYYSJABZR4B5HMJV5LSL2DY2C5DOVIHXFLLHJXMI
+  # Address of the name registry
+  registry_address: disabled
 
 ################################################################################
 ##                         Ban manager configuration                          ##
