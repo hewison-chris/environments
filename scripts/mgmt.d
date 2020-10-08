@@ -37,6 +37,7 @@ int showUsage ()
     stderr.writeln("Commands are:");
     stderr.writeln("\t- status  : Print `systemctl status` of all instances");
     stderr.writeln("\t- restart : Restart (in systemctl parlance) the targets");
+    stderr.writeln("\t- clear   : Clear storage of the targets");
     stderr.writeln("\t- update  : Fetch the new image(s) on targets then restart");
     stderr.writeln("\t- reset   : Update targets, clear storage, then restart");
     stderr.writeln();
@@ -84,6 +85,8 @@ int main (string[] args)
     {
     case "status", "Status", "STATUS":
         return statusCommand(app, hosts);
+    case "clear", "Clear", "CLEAR":
+        return clearCommand(app, hosts);
     case "restart", "Restart", "RESTART":
         return restartCommand(app, hosts);
     case "update", "Update", "UPDATE":
@@ -121,6 +124,29 @@ int statusCommand (Application app, in string[] hosts)
         case Application.Stoa:
             auto pid = execute([ "ssh", h, "sudo systemctl status stoa" ]);
             onResult(h, pid);
+            break;
+        }
+    }
+    return 0;
+}
+
+int clearCommand (Application app, in string[] hosts...)
+{
+    foreach (h; hosts)
+    {
+        stdout.writeln("Clearing cache in ", app, " instances on host: ", h);
+        final switch (app)
+        {
+        case Application.Agora, Application.All:
+            auto pid = execute([ "ssh", h, "sudo rm -rv /srv/agora/*/.cache/" ]);
+            if (pid.status)
+                stderr.writeln("Clearing cache on host ", h, " failed: ", pid.output);
+            if (app == Application.All)
+                goto case;
+            break;
+
+        case Application.Stoa:
+            // Nothing to do
             break;
         }
     }
@@ -182,21 +208,7 @@ int resetCommand (Application app, in string[] hosts)
     foreach (h; hosts)
     {
         stdout.writeln("Hard resetting ", app, " instances on host: ", h);
-        final switch (app)
-        {
-        case Application.Agora, Application.All:
-            auto pid = execute([ "ssh", h, "sudo rm -rv /srv/agora/.cache/" ]);
-            if (pid.status)
-                stderr.writeln("Clearing Agora cache on ", h, "failed: ", pid.output);
-            if (app == Application.All)
-                goto case;
-            break;
-
-        case Application.Stoa:
-            // Nothing to do
-            break;
-        }
-
+        clearCommand(app, h);
         updateCommand(app, h);
     }
     return 0;
