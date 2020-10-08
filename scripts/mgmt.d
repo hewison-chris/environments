@@ -61,15 +61,15 @@ int main (string[] args)
     }
 
     Application app;
-    switch (args[2])
+    switch (args[2].toLower)
     {
-    case "all", "All", "ALL":
+    case "all":
         app = Application.All;
         break;
-    case "agora", "Agora", "AGORA":
+    case "agora":
         app = Application.Agora;
         break;
-    case "stoa", "Stoa", "STOA":
+    case "stoa":
         app = Application.Stoa;
         break;
     default:
@@ -82,17 +82,17 @@ int main (string[] args)
     if (!hosts.length)
         return 1; // Error printed in getHostList
 
-    switch (args[1])
+    switch (args[1].toLower)
     {
-    case "status", "Status", "STATUS":
+    case "status":
         return statusCommand(app, hosts);
-    case "clear", "Clear", "CLEAR":
+    case "clear":
         return clearCommand(app, hosts);
-    case "restart", "Restart", "RESTART":
+    case "restart":
         return restartCommand(app, hosts);
-    case "update", "Update", "UPDATE":
+    case "update":
         return updateCommand(app, hosts);
-    case "reset", "Reset", "RESET":
+    case "reset":
         return resetCommand(app, hosts);
     default:
         stderr.writeln("Error: Unrecognized command '", args[1], "'");
