@@ -237,6 +237,12 @@ const(string)[] getHostList(string[] args)
         case "na":
             results ~= Hosts[1 .. $];
             break;
+        case "na-001":
+            results ~= Hosts[1];
+            break;
+        case "na-002":
+            results ~= Hosts[2];
+            break;
 
         static foreach (H; Hosts)
         {
