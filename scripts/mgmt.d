@@ -16,6 +16,7 @@ import std.algorithm;
 import std.array;
 import std.process;
 import std.stdio;
+import std.uni : toLower;
 
 immutable string[] Hosts = [
     "eu-002.bosagora.io",
@@ -226,14 +227,14 @@ const(string)[] getHostList(string[] args)
 
     foreach (arg; args)
     {
-    SW: switch (arg)
+    SW: switch (arg.toLower)
         {
-        case "all", "All", "ALL":
+        case "all":
             return Hosts;
-        case "eu", "Eu", "EU":
+        case "eu", "eu-002":
             results ~= Hosts[0];
             break;
-        case "na", "Na", "NA":
+        case "na":
             results ~= Hosts[1 .. $];
             break;
 
