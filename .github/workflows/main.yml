@@ -1,0 +1,20 @@
+# This workflow will make sure the management script compiles
+
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    # Install the D compiler
+    - name: Prepare compiler
+      uses: dlang-community/setup-dlang@v1
+
+    - name: Test compilation
+      run: dmd ./scripts/mgmt.d
+
