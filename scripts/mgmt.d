@@ -178,7 +178,7 @@ int restartCommand (Application app, in string[] hosts...)
     return 0;
 }
 
-int updateCommand (Application app, in string[] hosts...)
+bool updateHosts (Application app, in string[] hosts...)
 {
     foreach (h; hosts)
     {
@@ -198,9 +198,15 @@ int updateCommand (Application app, in string[] hosts...)
             if (pid.status)
                 stderr.writeln("Updating Stoa image on ", h, "failed: ", pid.output);
         }
-
-        restartCommand(app, h);
     }
+    return true;
+}
+
+int updateCommand (Application app, in string[] hosts...)
+{
+    updateHosts(app, hosts);
+    restartCommand(app, hosts);
+
     return 0;
 }
 
@@ -209,8 +215,8 @@ int resetCommand (Application app, in string[] hosts)
     foreach (h; hosts)
     {
         stdout.writeln("Hard resetting ", app, " instances on host: ", h);
+        updateHosts(app, h);
         clearCommand(app, h);
-        updateCommand(app, h);
     }
     return 0;
 }
