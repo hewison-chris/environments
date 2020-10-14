@@ -212,12 +212,10 @@ int updateCommand (Application app, in string[] hosts...)
 
 int resetCommand (Application app, in string[] hosts)
 {
-    foreach (h; hosts)
-    {
-        stdout.writeln("Hard resetting ", app, " instances on host: ", h);
-        updateHosts(app, h);
-        clearCommand(app, h);
-    }
+    stdout.writeln("Hard resetting ", app, " instances on host: ", hosts);
+    updateHosts(app, hosts);
+    clearCommand(app, hosts);
+
     return 0;
 }
 
